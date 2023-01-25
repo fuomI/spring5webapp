@@ -34,11 +34,19 @@ public class DevBootstrap implements ApplicationListener<ContextRefreshedEvent> 
 
     private void initData(){
 
+        // Publisher
+        Publisher publisher = new Publisher("Joe's books", "Green street 21", "New York",
+                "New York", "0204024");
+        publisherRepository.save(publisher);
+
+        System.out.println("Publisher count: " + publisherRepository.count());
+
         //Eric
         Author eric = new Author("Eric", "Evans");
-        Book  ddd = new Book("Domain Driven Design", "1234", "Harper Collins");
+        Book  ddd = new Book("Domain Driven Design", "1234", publisher);
         eric.getBooks().add(ddd);
         ddd.getAuthors().add(eric);
+        publisher.getBooks().add(ddd);
 
         authorRepository.save(eric);
         bookRepository.save(ddd);
@@ -46,9 +54,10 @@ public class DevBootstrap implements ApplicationListener<ContextRefreshedEvent> 
 
         //Rod
         Author rod = new Author("Rod", "Johnson");
-        Book noEJB = new Book("J2EE Development without EJB", "23444", "Wrox" );
+        Book noEJB = new Book("J2EE Development without EJB", "23444", publisher);
         rod.getBooks().add(noEJB);
         noEJB.getAuthors().add(rod);
+        publisher.getBooks().add(noEJB);
 
         authorRepository.save(rod);
         bookRepository.save(noEJB);
@@ -56,11 +65,7 @@ public class DevBootstrap implements ApplicationListener<ContextRefreshedEvent> 
         System.out.println("Author count: " + authorRepository.count());
         System.out.println("Book count: " + bookRepository.count());
 
-        // Publisher
-        Publisher publisher = new Publisher("Joe's books", "Green street 21", "New York",
-                                            "New York", "0204024");
-        publisherRepository.save(publisher);
+        System.out.println("Publisher's number of books: " + publisher.getBooks().size());
 
-        System.out.println("Publisher count: " + publisherRepository.count());
     }
 }
